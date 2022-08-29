@@ -1,13 +1,16 @@
 package app;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+
+import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
 public class LcdRepository {
 
-    Row top;
-    Row middle;
-    Row bottom;
+    Row top = new Row();
+    Row middle = new Row();
+    Row bottom = new Row();
 
     public Row getTop() {
         return top;
@@ -21,7 +24,7 @@ public class LcdRepository {
         return bottom;
     }
 
-    public void initData() {
+    void onStart(@Observes StartupEvent ev) {
         this.initOne();
         this.initTwo();
         this.initThree();
@@ -36,7 +39,8 @@ public class LcdRepository {
 
     private void initOne() {
         this.initRowsByNumber(1,
-                Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.EMPTY).right(AppUtils.EMPTY).build(),
+                Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.EMPTY).right(
+                        AppUtils.EMPTY).build(),
                 Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.EMPTY).right(AppUtils.EDGE).build(),
                 Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.EMPTY).right(AppUtils.EDGE).build());
     }
@@ -52,12 +56,13 @@ public class LcdRepository {
         this.initRowsByNumber(3,
                 Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.BOTTOM).right(AppUtils.EMPTY).build(),
                 Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.BOTTOM).right(AppUtils.EDGE).build(),
-                Segment.builder().left(AppUtils.EDGE).bottom(AppUtils.BOTTOM).right(AppUtils.EDGE).build());
+                Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.BOTTOM).right(AppUtils.EDGE).build());
     }
 
     private void initFour() {
         this.initRowsByNumber(4,
-                Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.EMPTY).right(AppUtils.EMPTY).build(),
+                Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.EMPTY).right(
+                        AppUtils.EMPTY).build(),
                 Segment.builder().left(AppUtils.EDGE).bottom(AppUtils.BOTTOM).right(AppUtils.EDGE).build(),
                 Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.EMPTY).right(AppUtils.EDGE).build());
     }
@@ -101,7 +106,7 @@ public class LcdRepository {
         this.initRowsByNumber(0,
                 Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.BOTTOM).right(AppUtils.EMPTY).build(),
                 Segment.builder().left(AppUtils.EDGE).bottom(AppUtils.EMPTY).right(AppUtils.EDGE).build(),
-                Segment.builder().left(AppUtils.EMPTY).bottom(AppUtils.BOTTOM).right(AppUtils.EMPTY).build());
+                Segment.builder().left(AppUtils.EDGE).bottom(AppUtils.BOTTOM).right(AppUtils.EDGE).build());
     }
 
     private void initRowsByNumber(int num, Segment topSegment, Segment middleSegment, Segment bottomSegment) {
