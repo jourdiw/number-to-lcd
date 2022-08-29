@@ -1,15 +1,7 @@
 import sys
-# top = {
-#     1: [" ", " ", " "],
-#     2: [" ", "_", " "],
-#     3: [" ", "_", " "],
-#     4: [" ", " ", " "],
-#     5: [" ", "_", " "],
-#     6: [" ", "_", " "],
-#     7: [" ", "_", " "],
-#     8: [" ", "_", " "],
-#     9: [" ", "_", " "]
-# }
+
+# Each dictionary is a collection of the horizontal segments
+# of each number: either top, middle or bottom.
 
 top = {
     1: "   ",
@@ -20,31 +12,34 @@ top = {
     6: " _ ",
     7: " _ ",
     8: " _ ",
-    9: " _ "
+    9: " _ ",
+    0: " _ "
 }
 
 middle = {
-    1: [" ", " ", "|"],
-    2: [" ", "_", "|"],
-    3: [" ", "_", "|"],
-    4: ["|", "_", "|"],
-    5: ["|", "_", " "],
-    6: ["|", "_", " "],
-    7: [" ", " ", "|"],
-    8: ["|", "_", "|"],
-    9: ["|", "_", "|"]
+    1: "  |",
+    2: " _|",
+    3: " _|",
+    4: "|_|",
+    5: "|_ ",
+    6: "|_ ",
+    7: "  |",
+    8: "|_|",
+    9: "|_|",
+    0: "| |"
 }
 
 bottom = {
-    1: [" ", " ", "|"],
-    2: ["|", "_", " "],
-    3: [" ", "_", "|"],
-    4: [" ", " ", "|"],
-    5: [" ", "_", "|"],
-    6: ["|", "_", "|"],
-    7: [" ", " ", "|"],
-    8: ["|", "_", "|"],
-    9: [" ", "_", "|"]
+    1: "  |",
+    2: "|_ ",
+    3: " _|",
+    4: "  |",
+    5: " _|",
+    6: "|_|",
+    7: "  |",
+    8: "|_|",
+    9: " _|",
+    0: "|_|"
 }
 
 
@@ -59,6 +54,7 @@ def validate(arg_index, name):
 
 
 def printTop():
+    # Top horizontal segment only needs a base row
     printBaseOfRow(top)
 
 
@@ -73,6 +69,7 @@ def printBottom():
 
 
 def printBaseOfRow(row):
+    # Regardless of height, there will always be a base row
     output = ""
     for num in numbers:
         output += addBaseNumber(row[int(num)])
@@ -80,6 +77,7 @@ def printBaseOfRow(row):
 
 
 def printFillerOfRow(row):
+    # As many filler rows are added as defined by 'height'
     row_num = 1
     while row_num < height:
         output = ""
@@ -90,10 +88,12 @@ def printFillerOfRow(row):
 
 
 def addBaseNumber(chars):
+    # Adding the default segment of a number
     return addNumber(chars, chars[1])
 
 
 def addFillerNumber(chars):
+    # Adding the segment of a number but empty in the middle
     return addNumber(chars, " ")
 
 
