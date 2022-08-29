@@ -15,10 +15,13 @@ import java.util.stream.IntStream;
 public class Row extends HashMap<Integer, Segment> {
 
     public List<String> getRow(List<Integer> numbers, int width, int height) {
+        var row = this.getFillerRows(numbers, width, height);
+        row.addAll(getRow(numbers, width));
+        return row;
+    }
+
+    public List<String> getRow(List<Integer> numbers, int width) {
         var row = new ArrayList<String>();
-        if (height > 1) {
-            row.addAll(this.getFillerRows(numbers, width, height));
-        }
         row.add(this.getBaseRow(numbers, width));
         return row;
     }
@@ -30,7 +33,7 @@ public class Row extends HashMap<Integer, Segment> {
 
     private List<String> getFillerRows(List<Integer> numbers, int width, int height) {
         var fillerRow = this.getFillerRow(numbers, width);
-        return IntStream.of(height).mapToObj(i -> fillerRow).collect(Collectors.toList());
+        return IntStream.range(1, height).mapToObj(i -> fillerRow).collect(Collectors.toList());
     }
 
     private String getFillerRow(List<Integer> numbers, int width) {
@@ -41,4 +44,5 @@ public class Row extends HashMap<Integer, Segment> {
     private String joinListToString(List<String> list) {
         return String.join("", list);
     }
+
 }
