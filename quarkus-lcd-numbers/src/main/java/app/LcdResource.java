@@ -19,6 +19,7 @@ public class LcdResource {
     @GET
     @Produces(MediaType.SERVER_SENT_EVENTS)
     public Multi<String> transformNumbersToLcd(@Valid @BeanParam NumbersParams params) {
+        params.isValid();
         return lcdService.transformNumbersToLcd(params.numbers, params.width, params.height)
                 .onItem().disjoint();
     }
