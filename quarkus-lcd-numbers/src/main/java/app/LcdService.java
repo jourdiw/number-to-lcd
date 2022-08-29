@@ -1,13 +1,13 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Uni;
 
 @ApplicationScoped
@@ -16,14 +16,12 @@ public class LcdService {
         @Inject
         LcdRepository repository;
 
-        void onStart(@Observes StartupEvent ev) {
-                this.repository.initData();
-        }
-
         public Uni<List<String>> transformNumbersToLcd(String numbers, int width, int height) {
-                var asIntList = new ArrayList<Integer>(); // TODO
+                List<Integer> asIntList = Arrays.asList(numbers.split(""))
+                                .stream().map(num -> Integer.parseInt(num))
+                                .collect(Collectors.toList());
                 return Uni.combine().all().unis(
-                                this.getRow(repository.getTop(), asIntList, width, height),
+                                this.getRow(repository.getTop(), asIntList, width),
                                 this.getRow(repository.getMiddle(), asIntList, width, height),
                                 this.getRow(repository.getBottom(), asIntList, width, height))
                                 .asTuple().map(rows -> {
@@ -36,6 +34,10 @@ public class LcdService {
 
         public Uni<List<String>> getRow(Row row, List<Integer> numbers, int width, int height) {
                 return Uni.createFrom().item(row.getRow(numbers, width, height));
+        }
+
+        public Uni<List<String>> getRow(Row row, List<Integer> numbers, int width) {
+                return Uni.createFrom().item(row.getRow(numbers, width));
         }
 
 }
