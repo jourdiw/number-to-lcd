@@ -38,9 +38,6 @@ public class Segment {
     }
 
     private void validateData(String left, String bottom, String right) throws IllegalArgumentException {
-        if (left.isBlank() && bottom.isBlank() && right.isBlank()) {
-            throw new IllegalArgumentException("All attributes cannot be blank");
-        }
         if (!this.isValid(left, AppUtils.EDGE)
                 || !this.isValid(right, AppUtils.EDGE)
                 || !this.isValid(bottom, AppUtils.BOTTOM)) {
@@ -51,6 +48,11 @@ public class Segment {
 
     private boolean isValid(String attribute, String validCharacter) {
         return attribute.isBlank() || attribute.equals(validCharacter);
+    }
+
+    @Override
+    public String toString() {
+        return "Segment [bottom=" + bottom + ", left=" + left + ", right=" + right + "]";
     }
 
 }
