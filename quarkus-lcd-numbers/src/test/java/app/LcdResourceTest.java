@@ -4,18 +4,19 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
 public class LcdResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void test200Endpoint() {
         given()
-          .when().get("/hello")
-          .then()
-             .statusCode(200)
-             .body(is("Hello from RESTEasy Reactive"));
+                .param("numbers", "1234567890")
+                .param("width", 1)
+                .param("height", 1)
+                .when().get("/number-to-lcd")
+                .then()
+                .statusCode(200);
     }
 
 }
