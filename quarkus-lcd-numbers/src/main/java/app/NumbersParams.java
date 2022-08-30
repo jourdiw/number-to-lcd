@@ -24,7 +24,7 @@ public class NumbersParams {
     @DefaultValue("1")
     public int height;
 
-    public void isValid() throws BadRequestException {
+    public void validate() throws BadRequestException {
         if (!numbers.matches("^[0-9]*$")) {
             throw new BadRequestException("Numbers must be numerical");
         }

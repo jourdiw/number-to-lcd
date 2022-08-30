@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 /**
  * A row is a collection of horizontal segments of a number sequence.
  * 
  * Filler row: changing the height variable will add more filler rows
  * Base row: always the lowest row for getRow
  */
+
+@RegisterForReflection
 public class Row extends HashMap<Integer, Segment> {
 
     public List<String> getRow(List<Integer> numbers, int width, int height) {

@@ -2,6 +2,7 @@ package app;
 
 import java.util.Arrays;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Builder;
 
 /**
@@ -10,6 +11,8 @@ import lombok.Builder;
  * Only possible to assign values: |, _, <space>
  * 
  */
+
+@RegisterForReflection
 @Builder
 public class Segment {
 
